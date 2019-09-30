@@ -8,23 +8,25 @@ const DEGREE = Math.PI / 180;
 
 // LOAD SPRITE IMAGE
 const sprite = new Image();
-sprite.src = "img/sprite.png";
+sprite.src = "img/sprite2.png";
 
+const BG_SCORE = new Audio();
+BG_SCORE.src = "bg_score.wav"
 // LOAD SOUNDS
 const SCORE_S = new Audio();
-SCORE_S.src = "audio/sfx_point.wav";
+SCORE_S.src = "fly1.wav";
 
 const FLAP = new Audio();
 FLAP.src = "audio/sfx_flap.wav";
 
 const HIT = new Audio();
-HIT.src = "audio/sfx_hit.wav";
+HIT.src = "die.wav";
 
 const SWOOSHING = new Audio();
 SWOOSHING.src = "audio/sfx_swooshing.wav";
 
 const DIE = new Audio();
-DIE.src = "audio/sfx_die.wav";
+DIE.src = "die.wav";
 
 // GAME STATE
 const state = {
@@ -69,7 +71,6 @@ cvs.addEventListener("click", function (evt) {
             break;
     }
 });
-
 
 // BACKGROUND
 const bg = {
@@ -116,9 +117,9 @@ const fg = {
 const tony = {
     animation: [
         { sX: 1275, sY: 365 },
-        { sX: 1275, sY: 420 },
-        { sX: 1275, sY: 476 },
-        { sX: 1275, sY: 420 }
+        { sX: 1275, sY: 421 },
+        { sX: 1275, sY: 478 },
+        { sX: 1275, sY: 421 }
     ],
     x: 150,
     y: 180,
@@ -136,7 +137,6 @@ const tony = {
 
     draw: function () {
         let tony = this.animation[this.frame];
-
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotation);
@@ -166,7 +166,7 @@ const tony = {
                 this.y = cvs.height - fg.h - this.h / 2;
                 if (state.current == state.game) {
                     state.current = state.over;
-                    if(state.current == state.over && score.value <10){
+                    if (state.current == state.over && score.value < 10) {
                         var fail = document.getElementById('fail');
                         fail.style.display = 'block';
                         setTimeout(() => { fail.style.display = 'none' }, 3000);
@@ -215,10 +215,10 @@ const gameOver = {
     h: 600,
     x: cvs.width / 2 - 700 / 2,
     y: 50,
-   
+
     draw: function () {
         if (state.current == state.over) {
-           
+
             ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
 
         }
@@ -278,7 +278,7 @@ const blocks = {
             // TOP block
             if (tony.x + tony.radius > p.x && tony.x - tony.radius < p.x + this.w && tony.y + tony.radius > p.y && tony.y - tony.radius < p.y + this.h) {
                 state.current = state.over;
-                if(state.current == state.over && score.value <10){
+                if (state.current == state.over && score.value < 10) {
                     var fail = document.getElementById('fail');
                     fail.style.display = 'block';
                     setTimeout(() => { fail.style.display = 'none' }, 3000);
@@ -288,7 +288,7 @@ const blocks = {
             // BOTTOM block
             if (tony.x + tony.radius > p.x && tony.x - tony.radius < p.x + this.w && tony.y + tony.radius > bottomPipeYPos && tony.y - tony.radius < bottomPipeYPos + this.h) {
                 state.current = state.over;
-                if(state.current == state.over && score.value <10){
+                if (state.current == state.over && score.value < 10) {
                     var fail = document.getElementById('fail');
                     fail.style.display = 'block';
                     setTimeout(() => { fail.style.display = 'none' }, 3000);
@@ -303,7 +303,7 @@ const blocks = {
             if (p.x + this.w <= 0) {
                 this.position.shift();
                 score.value += 1;
-                if (score.value > 10) {
+                if (score.value > 1) {
                     var end = document.getElementById('end');
                     end.style.display = 'block';
                     setTimeout(() => { end.style.display = 'none' }, 15000);
@@ -332,9 +332,9 @@ const score = {
 
         if (state.current == state.game) {
             ctx.lineWidth = 2;
-            ctx.font = "35px Teko";
-            ctx.fillText(this.value, cvs.width / 2, 50);
-            ctx.strokeText(this.value, cvs.width / 2, 50);
+            ctx.font = "80px Teko";
+            ctx.fillText(this.value, 1200, 630);
+            ctx.strokeText(this.value, 1200, 630);
 
         } else if (state.current == state.over) {
             // SCORE VALUE
@@ -356,7 +356,6 @@ const score = {
 function draw() {
     ctx.fillStyle = "#07084D";
     ctx.fillRect(0, 0, cvs.width, cvs.height);
-
     bg.draw();
     blocks.draw();
     fg.draw();
@@ -364,6 +363,21 @@ function draw() {
     getReady.draw();
     gameOver.draw();
     score.draw();
+    var volumeUp=document.getElementById('soundup');
+    var volumeDown=document.getElementById('sounddown');
+    if(volumeUp.style.display!='none'){
+        BG_SCORE.play();
+    }
+    volumeUp.addEventListener('click',()=>{
+        BG_SCORE.pause();
+        volumeDown.style.display='inherit';
+        volumeUp.style.display='none';
+    });
+    volumeDown.addEventListener('click',()=>{
+        BG_SCORE.play();
+        volumeUp.style.display='inherit';
+        volumeDown.style.display='none';
+    });
 }
 
 // UPDATE
