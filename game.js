@@ -16,8 +16,8 @@ BG_SCORE.src = "bg_score.wav"
 const SCORE_S = new Audio();
 SCORE_S.src = "fly1.wav";
 
-const FLAP = new Audio();
-FLAP.src = "audio/sfx_flap.wav";
+const BOOST = new Audio();
+BOOST.src = "audio/sfx_flap.wav";
 
 const HIT = new Audio();
 HIT.src = "die.wav";
@@ -53,8 +53,8 @@ cvs.addEventListener("click", function (evt) {
             break;
         case state.game:
             if (tony.y - tony.radius <= 0) return;
-            tony.flap();
-            FLAP.play();
+            tony.boost();
+            BOOST.play();
             break;
         case state.over:
             let rect = cvs.getBoundingClientRect();
@@ -144,7 +144,7 @@ const tony = {
         ctx.restore();
     },
 
-    flap: function () {
+    boost: function () {
         this.speed = - this.jump;
     },
 
@@ -166,12 +166,13 @@ const tony = {
                 this.y = cvs.height - fg.h - this.h / 2;
                 if (state.current == state.game) {
                     state.current = state.over;
-                    if (state.current == state.over && score.value < 10) {
+                    if (state.current == state.over && score.value < 1) {
                         var fail = document.getElementById('fail');
                         fail.style.display = 'block';
-                        setTimeout(() => { fail.style.display = 'none' }, 3000);
+                        setTimeout(() => { fail.style.display = 'none' }, 2500);
+                        DIE.play();
                     }
-                    DIE.play();
+                   
                 }
             }
 
@@ -261,6 +262,7 @@ const blocks = {
     },
 
     update: function () {
+        var fail = document.getElementById('fail');
         if (state.current !== state.game) return;
 
         if (frames % 100 == 0) {
@@ -278,22 +280,24 @@ const blocks = {
             // TOP block
             if (tony.x + tony.radius > p.x && tony.x - tony.radius < p.x + this.w && tony.y + tony.radius > p.y && tony.y - tony.radius < p.y + this.h) {
                 state.current = state.over;
-                if (state.current == state.over && score.value < 10) {
-                    var fail = document.getElementById('fail');
+                if (state.current == state.over && score.value < 1) {
+
                     fail.style.display = 'block';
-                    setTimeout(() => { fail.style.display = 'none' }, 3000);
+                    setTimeout(() => { fail.style.display = 'none' }, 2500);
+                    HIT.play();
                 }
-                HIT.play();
+               
             }
             // BOTTOM block
             if (tony.x + tony.radius > p.x && tony.x - tony.radius < p.x + this.w && tony.y + tony.radius > bottomPipeYPos && tony.y - tony.radius < bottomPipeYPos + this.h) {
                 state.current = state.over;
-                if (state.current == state.over && score.value < 10) {
-                    var fail = document.getElementById('fail');
+                if (state.current == state.over && score.value < 1) {
+
                     fail.style.display = 'block';
-                    setTimeout(() => { fail.style.display = 'none' }, 3000);
+                    setTimeout(() => { fail.style.display = 'none' }, 2500);
+                    HIT.play();
                 }
-                HIT.play();
+              
             }
 
             // MOVE THE blocks TO THE LEFT
@@ -304,9 +308,12 @@ const blocks = {
                 this.position.shift();
                 score.value += 1;
                 if (score.value > 1) {
+                    DIE.pause();
+                    HIT.pause();
                     var end = document.getElementById('end');
                     end.style.display = 'block';
-                    setTimeout(() => { end.style.display = 'none' }, 15000);
+                    setTimeout(() => { end.style.display = 'none'}, 15000);
+                   
                 }
                 SCORE_S.play();
                 score.best = Math.max(score.value, score.best);
@@ -363,20 +370,28 @@ function draw() {
     getReady.draw();
     gameOver.draw();
     score.draw();
-    var volumeUp=document.getElementById('soundup');
-    var volumeDown=document.getElementById('sounddown');
-    if(volumeUp.style.display!='none'){
+    var volumeUp = document.getElementById('soundup');
+    var volumeDown = document.getElementById('sounddown');
+    if (volumeUp.style.display != 'none') {
         BG_SCORE.play();
     }
-    volumeUp.addEventListener('click',()=>{
+    volumeUp.addEventListener('click', () => {
         BG_SCORE.pause();
-        volumeDown.style.display='inherit';
-        volumeUp.style.display='none';
+        HIT.muted=true;
+        BOOST.muted=true;
+        DIE.muted=true;
+        SCORE_S.muted=true;
+        volumeDown.style.display = 'inherit';
+        volumeUp.style.display = 'none';
     });
-    volumeDown.addEventListener('click',()=>{
+    volumeDown.addEventListener('click', () => {
         BG_SCORE.play();
-        volumeUp.style.display='inherit';
-        volumeDown.style.display='none';
+        HIT.muted=false;
+        BOOST.muted=false;
+        DIE.muted=false;
+        SCORE_S.muted=false;
+        volumeUp.style.display = 'inherit';
+        volumeDown.style.display = 'none';
     });
 }
 

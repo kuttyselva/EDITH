@@ -12,9 +12,10 @@ body{
     transition: opacity 2s ease-in; 
     position: absolute;
     display: none;
-    top:2%;
-    left:13%;
-    width: 1230px;
+    top: 1%;
+    left: 12%;
+    width: 1270px;
+    height: 690px;
 }
 .fail{
     -webkit-transition: opacity 2s ease-in;
@@ -24,9 +25,10 @@ body{
     transition: opacity 2s ease-in; 
     position: absolute;
     display: none;
-    top:2%;
-    left:13%;
-    width: 1230px;
+    top: 1%;
+    left: 12%;
+    width: 1270px;
+    height: 690px;
 }
 #soundup{
     position: absolute;
