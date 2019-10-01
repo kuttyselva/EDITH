@@ -5,6 +5,7 @@ const ctx = cvs.getContext("2d");
 // GAME VARS AND CONSTS
 let frames = 0;
 const DEGREE = Math.PI / 180;
+const HIGH_SCORE = 200;
 
 // LOAD SPRITE IMAGE
 const sprite = new Image();
@@ -166,7 +167,7 @@ const tony = {
                 this.y = cvs.height - fg.h - this.h / 2;
                 if (state.current == state.game) {
                     state.current = state.over;
-                    if (state.current == state.over && score.value < 1) {
+                    if (state.current == state.over && score.value < HIGH_SCORE) {
                         var fail = document.getElementById('fail');
                         fail.style.display = 'block';
                         setTimeout(() => { fail.style.display = 'none' }, 2500);
@@ -280,7 +281,7 @@ const blocks = {
             // TOP block
             if (tony.x + tony.radius > p.x && tony.x - tony.radius < p.x + this.w && tony.y + tony.radius > p.y && tony.y - tony.radius < p.y + this.h) {
                 state.current = state.over;
-                if (state.current == state.over && score.value < 1) {
+                if (state.current == state.over && score.value < HIGH_SCORE) {
 
                     fail.style.display = 'block';
                     setTimeout(() => { fail.style.display = 'none' }, 2500);
@@ -291,7 +292,7 @@ const blocks = {
             // BOTTOM block
             if (tony.x + tony.radius > p.x && tony.x - tony.radius < p.x + this.w && tony.y + tony.radius > bottomPipeYPos && tony.y - tony.radius < bottomPipeYPos + this.h) {
                 state.current = state.over;
-                if (state.current == state.over && score.value < 1) {
+                if (state.current == state.over && score.value < HIGH_SCORE) {
 
                     fail.style.display = 'block';
                     setTimeout(() => { fail.style.display = 'none' }, 2500);
@@ -307,7 +308,7 @@ const blocks = {
             if (p.x + this.w <= 0) {
                 this.position.shift();
                 score.value += 1;
-                if (score.value > 1) {
+                if (score.value > HIGH_SCORE) {
                     DIE.pause();
                     HIT.pause();
                     var end = document.getElementById('end');
