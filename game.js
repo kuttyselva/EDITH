@@ -5,7 +5,7 @@ const ctx = cvs.getContext("2d");
 // GAME VARS AND CONSTS
 let frames = 0;
 const DEGREE = Math.PI / 180;
-const HIGH_SCORE = 200;
+const HIGH_SCORE = 30;
 
 // LOAD SPRITE IMAGE
 const sprite = new Image();
