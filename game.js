@@ -11,22 +11,22 @@ const sprite = new Image();
 sprite.src = "img/sprite2.png";
 
 const BG_SCORE = new Audio();
-BG_SCORE.src = "bg_score.wav"
+BG_SCORE.src = "audio/bg_score.wav"
 // LOAD SOUNDS
 const SCORE_S = new Audio();
-SCORE_S.src = "fly1.wav";
+SCORE_S.src = "audio/fly.wav";
 
 const BOOST = new Audio();
 BOOST.src = "audio/sfx_flap.wav";
 
 const HIT = new Audio();
-HIT.src = "die.wav";
+HIT.src = "audio/die.wav";
 
 const SWOOSHING = new Audio();
 SWOOSHING.src = "audio/sfx_swooshing.wav";
 
 const DIE = new Audio();
-DIE.src = "die.wav";
+DIE.src = "audio/die.wav";
 
 // GAME STATE
 const state = {
