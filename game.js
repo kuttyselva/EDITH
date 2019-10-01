@@ -377,7 +377,7 @@ function draw() {
         BG_SCORE.play();
     }
     volumeUp.addEventListener('click', () => {
-        BG_SCORE.pause();
+        BG_SCORE.muted=true;
         HIT.muted=true;
         BOOST.muted=true;
         DIE.muted=true;
@@ -386,7 +386,7 @@ function draw() {
         volumeUp.style.display = 'none';
     });
     volumeDown.addEventListener('click', () => {
-        BG_SCORE.play();
+        BG_SCORE.muted=false;
         HIT.muted=false;
         BOOST.muted=false;
         DIE.muted=false;
