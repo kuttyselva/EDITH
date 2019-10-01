@@ -394,6 +394,12 @@ function draw() {
         volumeUp.style.display = 'inherit';
         volumeDown.style.display = 'none';
     });
+    
+var restart = document.getElementById('restart');
+restart.addEventListener('click',() =>{
+    location.reload();
+}
+);
 }
 
 // UPDATE
@@ -408,7 +414,14 @@ function loop() {
     update();
     draw();
     frames++;
+    document.body.onkeyup = function(e){
+        if(e.keyCode == 32){
+            window.alert("Game is Paused \nClick SPACE to RESUME");
+           
+        }
+    }
 
     requestAnimationFrame(loop);
 }
 loop();
+
